@@ -52,7 +52,7 @@ def delete_state(state_id):
 
 @app_views.route('/states/', methods=['POST'])
 def create_state():
-    if not request.json:
+    if request.content_type != 'application/json':
         return make_response(jsonify({"error": "Not a JSON"}), 400)
     data = request.get_json()
     if 'name' not in data.keys():
@@ -62,7 +62,7 @@ def create_state():
     state.name = data['name']
     storage.new(state)
     storage.save()
-    return jsonify(state.to_dict()), 200
+    return jsonify(state.to_dict()), 201
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'])
@@ -71,7 +71,7 @@ def update_state(state_id):
     state = find_state(states, state_id)
     if state is None:
         abort(404)
-    if not request.json:
+    if request.content_type != 'application/json':
         return make_response(jsonify({"error": "Not a JSON"}), 400)
     data = request.get_json()
     ignore_keys = ['id', 'created_at', 'updated_at']

@@ -80,9 +80,9 @@ class DBStorage:
         key = "{}.{}".format(cls.__name__, id)
         objects = self.all(cls)
         if key in objects.keys():
-            return str(objects[key])
+            return objects[key]
         return None
-    
+
     def count(self, cls=None):
         """A method to count the number of objects in storage"""
         objects = self.all(cls)

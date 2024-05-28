@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-"""This is `amenities` module that handles all default RESTFul API actions"""
+"""This is `users` module that handles all default RESTFul API actions"""
 
 from api.v1.views import app_views
 from flask import jsonify, abort, request, make_response
@@ -39,11 +39,15 @@ def create_user():
     if request.content_type != 'application/json':
         return make_response(jsonify({"error": "Not a JSON"}), 400)
     data = request.get_json()
-    if 'name' not in data.keys():
-        return make_response(jsonify({"error": "Missing name"}), 400)
+    if 'email' not in data.keys():
+        return make_response(jsonify({"error": "Missing email"}), 400)
+
+    if 'password' not in data.keys():
+        return make_response(jsonify({"error": "Missing password"}), 400)
 
     user_obj = User()
-    user_obj.name = data['name']
+    user_obj.email = data['email']
+    user_obj.password = data['password']
     storage.new(user_obj)
     storage.save()
     return jsonify(user_obj.to_dict()), 201
@@ -58,7 +62,7 @@ def update_user(user_id):
     if request.content_type != 'application/json':
         return make_response(jsonify({"error": "Not a JSON"}), 400)
     data = request.get_json()
-    ignore_keys = ['id', 'created_at', 'updated_at']
+    ignore_keys = ['id', 'email', 'created_at', 'updated_at']
     user_obj = users[key]
     for key, value in data.items():
         if key not in ignore_keys:

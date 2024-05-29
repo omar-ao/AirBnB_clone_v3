@@ -3,22 +3,22 @@
 """This is `places` module that handles all
 default RESTFul API actions for cities"""
 
-from api.v1.views import app_views
 from flask import jsonify, abort, request, make_response
 from models import storage
 from models.city import City
 from models.place import Place
+from api.v1.views import app_views
 
 
 def get_all_cities():
-    """Gets all states objects"""
+    """Gets all citiess objects"""
     objects = storage.all()
-    states = [v for k, v in objects.items() if v.__class__ == City]
-    return states
+    cities = [v for k, v in objects.items() if v.__class__ == City]
+    return cities
 
 
 def find_city(cities, city_id):
-    """Finds state by id in states objects"""
+    """Finds city by id in cities objects"""
     city = [city for city in cities if city.id == city_id]
     if city == []:
         return None
@@ -52,7 +52,7 @@ def get_place(place_id):
 
 @app_views.route('/places/<place_id>', methods=['DELETE'])
 def delete_place(place_id):
-    place = find_city(place_id)
+    place = find_place(place_id)
     if place is None:
         abort(404)
     storage.delete(place)
@@ -95,5 +95,5 @@ def update_place(place_id):
     for key, value in data.items():
         if key not in ignore_keys:
             setattr(place, key, value)
-    place.save()
+    storage.save()
     return jsonify(place.to_dict()), 200

@@ -26,7 +26,7 @@ def find_city(cities, city_id):
 
 
 def find_place(place_id):
-    places = storage.all(Place)
+    places = storage.all(Place)()
     key = '{}.{}'.format('Place', place_id)
     return places.get(key)
 
@@ -37,7 +37,7 @@ def get_places(city_id):
     city = find_city(cities, city_id)
     if city is None:
         abort(404)
-    objs = storage.all(Place).items()
+    objs = storage.all(Place)().items()
     places = [v.to_dict() for k, v in objs if v.city_id == city_id]
     return jsonify(places)
 

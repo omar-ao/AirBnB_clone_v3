@@ -31,7 +31,7 @@ def find_city(city_id):
     return cities.get(key)
 
 
-@app_views.route('/states/<state_id>/cities', methods=['GET'])
+@app_views.route('/states/<state_id>/cities/', methods=['GET'])
 def get_cities(state_id):
     states = get_all_states()
     state = find_state(states, state_id)
@@ -60,7 +60,7 @@ def delete_city(city_id):
     return jsonify({}), 200
 
 
-@app_views.route('/states/<state_id>/cities', methods=['POST'])
+@app_views.route('/states/<state_id>/cities/', methods=['POST'])
 def create_city(state_id):
     states = get_all_states()
     state = find_state(states, state_id)

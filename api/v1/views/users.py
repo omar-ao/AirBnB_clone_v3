@@ -25,11 +25,10 @@ def get_user(user_id):
 
 @app_views.route('/users/<user_id>', methods=['DELETE'])
 def delete_user(user_id):
-    users = storage.all(User)
-    key = '{}.{}'.format('User', user_id)
-    if key not in users.keys():
+    user = storage.get(User, user_id)
+    if not user:
         abort(404)
-    storage.delete(users[key])
+    storage.delete(user)
     storage.save()
     return jsonify({}), 200
 

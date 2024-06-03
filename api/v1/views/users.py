@@ -8,13 +8,13 @@ from models import storage
 from models.user import User
 
 
-@app_views.route('/users', methods=['GET'], strict_slashes=False)
+@app_views.route('/users', methods=['GET'])
 def get_users():
     users = [v.to_dict() for k, v in storage.all(User).items()]
     return jsonify(users)
 
 
-@app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/users/<user_id>', methods=['GET'])
 def get_user(user_id):
     users = storage.all(User)
     key = '{}.{}'.format('User', user_id)
@@ -23,7 +23,7 @@ def get_user(user_id):
     return jsonify(users[key].to_dict())
 
 
-@app_views.route('/users/<user_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/users/<user_id>', methods=['DELETE'])
 def delete_user(user_id):
     user = storage.get(User, user_id)
     if not user:
@@ -33,7 +33,7 @@ def delete_user(user_id):
     return jsonify({}), 200
 
 
-@app_views.route('/users', methods=['POST'], strict_slashes=False)
+@app_views.route('/users', methods=['POST'])
 def create_user():
     if request.content_type != 'application/json':
         return make_response(jsonify({"error": "Not a JSON"}), 400)
@@ -52,7 +52,7 @@ def create_user():
     return jsonify(user_obj.to_dict()), 201
 
 
-@app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/users/<user_id>', methods=['PUT'])
 def update_user(user_id):
     users = storage.all(User)
     key = '{}.{}'.format('User', user_id)

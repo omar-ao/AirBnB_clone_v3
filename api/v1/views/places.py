@@ -31,7 +31,8 @@ def find_place(place_id):
     return places.get(key)
 
 
-@app_views.route('/cities/<city_id>/places', methods=['GET'])
+@app_views.route('/cities/<city_id>/places', methods=['GET'],
+                 strict_slashes=False)
 def get_places(city_id):
     cities = get_all_cities()
     city = find_city(cities, city_id)
@@ -42,7 +43,8 @@ def get_places(city_id):
     return jsonify(places)
 
 
-@app_views.route('/places/<place_id>', methods=['GET'])
+@app_views.route('/places/<place_id>', methods=['GET'],
+                 strict_slashes=False)
 def get_place(place_id):
     place = find_place(place_id)
     if not place:
@@ -50,7 +52,8 @@ def get_place(place_id):
     return jsonify(place.to_dict())
 
 
-@app_views.route('/places/<place_id>', methods=['DELETE'])
+@app_views.route('/places/<place_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def delete_place(place_id):
     place = find_place(place_id)
     if place is None:
@@ -60,7 +63,8 @@ def delete_place(place_id):
     return jsonify({}), 200
 
 
-@app_views.route('/cities/<city_id>/places', methods=['POST'])
+@app_views.route('/cities/<city_id>/places', methods=['POST'],
+                 strict_slashes=False)
 def create_place(city_id):
     cities = get_all_cities()
     city = find_city(cities, city_id)
@@ -83,7 +87,7 @@ def create_place(city_id):
     return jsonify(place.to_dict()), 201
 
 
-@app_views.route('/places/<place_id>', methods=['PUT'])
+@app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
 def update_place(place_id):
     place = find_place(place_id)
     if place is None:
